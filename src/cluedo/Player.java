@@ -18,7 +18,15 @@ public class Player extends Card{
 		case 5:
 			name = "Victor Plum"; break;
 		}
-		System.out.println(name+" has joined the game");
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	public boolean move(int x,int y){
+		//TODO
+		return false;
 	}
 
 }

@@ -1,6 +1,7 @@
 package cluedo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,6 +9,11 @@ public class Cluedo {
 	private List<Player> players = new ArrayList<Player>();
 	private List<Room> rooms = new ArrayList<Room>();
 	private List<Weapon> weapons = new ArrayList<Weapon>();
+	private List<Card> deck = new ArrayList<Card>();
+	private Weapon mWeapon;
+	private Player mPlayer;
+	private Room mRoom;
+	private int pCount;
 	
 	public static void main(String[] args){
 		int pCount = 0;
@@ -21,10 +27,30 @@ public class Cluedo {
 		Cluedo c = new Cluedo(pCount);
 	}
 	public Cluedo(int pCount){
+		this.pCount = pCount;
 		System.out.println("Starting game with "+pCount+" players");
-		for(Integer i = 0;i<pCount;i++){
+		//Create players
+		for(Integer i = 0;i<6;i++){
 			Player p = new Player(i);
+			deck.add(p);
 			players.add(p);
+			System.out.println("Player "+p.getName()+" has joined the game");
 		}
+		mPlayer = players.get((int)Math.random()*6);
+		deck.remove(mPlayer);
+		//Create weapons
+		for(Integer i = 0;i<8;i++){
+			Weapon w = new Weapon(i);
+			deck.add(w);
+			weapons.add(w);
+		}
+		mWeapon = weapons.get((int)Math.random()*8);
+		//Create Rooms
+		for(Integer i = 0;i<8;i++){
+			Weapon w = new Weapon(i);
+			deck.add(w);
+			weapons.add(w);
+		}
+		mWeapon = weapons.get((int)Math.random()*8);
 	}
 }
