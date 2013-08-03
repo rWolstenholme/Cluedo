@@ -14,6 +14,8 @@ public class Cluedo {
 	private Player mPlayer;
 	private Room mRoom;
 	private int pCount;
+	private int currentTurn = 0;
+	private boolean GAME_OVER = false;
 	
 	public static void main(String[] args){
 		int pCount = 0;
@@ -27,6 +29,7 @@ public class Cluedo {
 		Cluedo c = new Cluedo(pCount);
 	}
 	public Cluedo(int pCount){
+		Dice die = new Dice();
 		this.pCount = pCount;
 		System.out.println("Starting game with "+pCount+" players");
 		//Create players
@@ -34,7 +37,7 @@ public class Cluedo {
 			Player p = new Player(i);
 			deck.add(p);
 			players.add(p);
-			System.out.println("Player "+p.getName()+" has joined the game");
+			//System.out.println("Player "+p.getName()+" has joined the game");
 		}
 		mPlayer = players.get((int)Math.random()*6);
 		deck.remove(mPlayer);
@@ -52,5 +55,19 @@ public class Cluedo {
 			weapons.add(w);
 		}
 		mWeapon = weapons.get((int)Math.random()*8);
+		
+		while(GAME_OVER == false) {
+			Player cP = players.get(currentTurn % pCount);	//Alternates turns between players.
+			System.out.println("It is now " + cP.getName() +"'s turn.");
+			takeTurn(cP);
+			currentTurn++;
+		}
+	}
+	
+	public void takeTurn(Player p) {
+		//TODO Turn taking.
+		//Options for what to do in turn.
+		//Call move method.
+		//Make murder suggestions... etc.
 	}
 }
