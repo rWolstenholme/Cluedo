@@ -9,13 +9,13 @@ public class Dice {
 	
 	public Dice(){
 		rand = new Random();
-		one = rand.nextInt(6);
-		two = rand.nextInt(6);
+		one = rand.nextInt(6) + 1;
+		two = rand.nextInt(6) + 1;
 	}
 	
 	public int roll(){
-		one = rand.nextInt(6);
-		two = rand.nextInt(6);
+		one = rand.nextInt(6) + 1;
+		two = rand.nextInt(6) + 1;
 		return one + two;
 	}
 	
