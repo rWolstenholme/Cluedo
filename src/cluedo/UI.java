@@ -1,11 +1,20 @@
 package cluedo;
 
+/**Used to draw the board, and all the cards on it.
+ *  
+ *
+ */
 public class UI {
-	private Cluedo game;
-	public UI(Cluedo c){
-		game = c;
+
+	Board board;
+	
+	public UI(Board board) {
+		this.board = board;
 	}
-	public void print(){
-		//TODO
+	
+	public void printBoard() {
+		//Get info from board then,
+		//Print board to system.out...
 	}
+	
 }

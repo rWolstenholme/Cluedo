@@ -15,6 +15,8 @@ public class Cluedo {
 	private Room mRoom;
 	private int pCount;
 	private int currentTurn = 0;
+	private Board board;
+	private UI console;
 	private boolean GAME_OVER = false;
 	
 	public static void main(String[] args){
@@ -56,6 +58,9 @@ public class Cluedo {
 		}
 		mWeapon = weapons.get((int)Math.random()*8);
 		
+		board = new Board(this);
+		console = new UI(board);
+		
 		while(GAME_OVER == false) {
 			Player cP = players.get(currentTurn % pCount);	//Alternates turns between players.
 			System.out.println("It is now " + cP.getName() +"'s turn.");
@@ -68,6 +73,8 @@ public class Cluedo {
 		//TODO Turn taking.
 		//Options for what to do in turn.
 		//Call move method.
+		//Update Board.
 		//Make murder suggestions... etc.
+		//Call UI.print() when turn over.
 	}
 }
