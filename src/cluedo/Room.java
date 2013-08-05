@@ -1,18 +1,17 @@
 package cluedo;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Room extends Card{
 	private Set<Location> inRoom = new HashSet<Location>();
 	private String name;
 	private Set<Location> locations;
+	private int roomKey;
 
-	public Room(int roomKey, Set<Location> lSet) {
+	public Room(int roomKey) {
 		setName(roomKey);
-		setLocations(lSet);
+		this.roomKey = roomKey;
 	}
 	
 	private void setName(int roomKey) {
@@ -53,8 +52,12 @@ public class Room extends Card{
 		}
 	}
 	
-	public void setLocations(Set<Location> lSet) {
-		locations = lSet;
+	public int getKey(){
+		return roomKey;
+	}
+	
+	public void addLocation(Location l) {
+		locations.add(l);
 	}
 
 }
