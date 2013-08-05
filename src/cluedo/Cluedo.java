@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Cluedo {
 	private List<Player> players = new ArrayList<Player>();
-	private List<Room> rooms = new ArrayList<Room>();
+	public List<Room> rooms = new ArrayList<Room>();
 	private List<Weapon> weapons = new ArrayList<Weapon>();
 	private List<Card> deck = new ArrayList<Card>();
 	private Weapon mWeapon;

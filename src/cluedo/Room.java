@@ -5,13 +5,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class Room extends Card{
+public class Room extends Card{
 	private Set<Location> inRoom = new HashSet<Location>();
 	private String name;
+	private Set<Location> locations;
 
-	public Room(int roomKey) {
+	public Room(int roomKey, Set<Location> lSet) {
 		setName(roomKey);
-		setLocations();
+		setLocations(lSet);
 	}
 	
 	private void setName(int roomKey) {
@@ -46,11 +47,14 @@ public abstract class Room extends Card{
 		case 9:
 			name = "Observatory";
 			break;
+		case 10:
+			name = "Ouside";
+			break;
 		}
 	}
 	
-	private void setLocations() {
-
+	public void setLocations(Set<Location> lSet) {
+		locations = lSet;
 	}
 
 }
