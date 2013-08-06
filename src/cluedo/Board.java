@@ -1,8 +1,5 @@
 package cluedo;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Board {
 
 	int[][]layout=
@@ -39,7 +36,7 @@ public class Board {
 		{ 0, 0, 0, 0, 0, 0, 0,22,10, 3, 3, 3, 3, 3, 3, 3, 3,10,22,10, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7}
 		};	
 	
-	Location grid[][] = new Location [25][29];	//Represents the board??
+	Location grid[][] = new Location [layout.length][layout[0].length];	//Represents the board??
 	
 	public Board(Cluedo game) {		
 		 for (int x = 0; x < layout.length; x++) {
@@ -47,10 +44,12 @@ public class Board {
 	            	int tile = layout[x][y];
 	            	Location l;
 	            	if(tile==11){l = new Location(x, y, true);}
+	            	else if(tile==88){l=null;}
 	            	else{l = new Location(x, y);}
 	            	for(Room r:game.rooms){
 	            		if(r.getKey()==tile){r.addLocation(l);break;}
 	            	}
+	            	grid[x][y]=l;
 	            }
 		 }
 		
