@@ -19,6 +19,8 @@ public class Cluedo {
 	private boolean GAME_OVER = false;
 	private static Scanner input;
 
+	private enum direction{UP,DOWN,LEFT,RIGHT}
+	
 	public static void main(String[] args){
 		int pCount = 0;
 		input = new Scanner(System.in);
@@ -84,6 +86,29 @@ public class Cluedo {
 		}
 		Dice diceRoll = new Dice();
 		System.out.println("You rolled a " + diceRoll.getCurrent());
+		for(int moves = diceRoll.getCurrent(); moves>0; moves--){
+			System.out.println(moves + "Moves left, type 'up','left,'right, or 'down' to move");
+			String dir=null;
+			while(dir==null){
+				if (input.hasNext()) {dir = input.nextLine();}
+				else {input.next();}
+				try{direction.valueOf(dir.toUpperCase());}
+				catch(IllegalArgumentException e){dir = null;}
+			}
+			direction d = direction.valueOf(dir.toUpperCase());
+			switch(d.ordinal()){
+			case 0:
+				p.move(0, -1);break;
+			case 1:
+				p.move(0, 1);break;
+			case 2:
+				p.move(-1, 0);break;
+			case 3:
+				p.move(1, 0);break;
+			default:
+				throw new RuntimeException("Direction failure");
+			}
+		}
 		//TODO Turn taking.
 		//Options for what to do in turn.
 		//Call move method.
