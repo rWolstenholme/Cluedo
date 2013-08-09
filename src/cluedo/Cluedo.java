@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Cluedo {
-	private List<Player> players = new ArrayList<Player>();
+	private ArrayList<Player> players = new ArrayList<Player>();
 	public List<Room> rooms = new ArrayList<Room>();
 	private List<Weapon> weapons = new ArrayList<Weapon>();
 	private List<Card> deck = new ArrayList<Card>();
@@ -20,7 +20,7 @@ public class Cluedo {
 	private static Scanner input;
 
 	private enum direction{UP,DOWN,LEFT,RIGHT}
-	
+
 	public static void main(String[] args){
 		int pCount = 0;
 		input = new Scanner(System.in);
@@ -33,9 +33,10 @@ public class Cluedo {
 		//as it will also close 'System.in' apparently.
 		Cluedo c = new Cluedo(pCount);
 	}
+	
 	public Cluedo(int pCount){
 		Dice die = new Dice();
-		this.pCount = pCount;
+		this.setpCount(pCount);
 		System.out.println("Starting game with "+pCount+" players");
 		//Create players
 		for(Integer i = 0;i<6;i++){
@@ -72,6 +73,10 @@ public class Cluedo {
 		}
 	}
 
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+
 	public void takeTurn(Player p) {
 		String answer = ""; 
 		input = new Scanner(System.in);
@@ -87,7 +92,10 @@ public class Cluedo {
 		Dice diceRoll = new Dice();
 		System.out.println("You rolled a " + diceRoll.getCurrent());
 		for(int moves = diceRoll.getCurrent(); moves>0; moves--){
-			System.out.println(moves + "Moves left, type 'up','left,'right, or 'down' to move");
+			//TODO Check if next to room Door. 
+			//If so, then give option to enter.
+			//TODO Also give different options if inside of room currently.
+			System.out.println(moves + " Moves left, type 'up','left,'right, or 'down' to move");
 			String dir=null;
 			while(dir==null){
 				if (input.hasNext()) {dir = input.nextLine();}
@@ -98,22 +106,39 @@ public class Cluedo {
 			direction d = direction.valueOf(dir.toUpperCase());
 			switch(d.ordinal()){
 			case 0:
-				p.move(0, -1);break;
+				if (board.move(p, 0, -1))
+					break;
+				else 
+					moves++; continue;
 			case 1:
-				p.move(0, 1);break;
+				if (board.move(p, 0, 1))
+					break;
+				else 
+					moves++; continue;
 			case 2:
-				p.move(-1, 0);break;
+				if (board.move(p, -1, 0))
+					break;
+				else 
+					moves++; continue;
 			case 3:
-				p.move(1, 0);break;
+				if (board.move(p, 1, 0))
+					break;
+				else 
+					moves++; continue;
 			default:
 				throw new RuntimeException("Direction failure");
 			}
+			board.print();
+			System.out.println(p.getName() + " now at: " + p.getAtLoc().getX() + ","+ p.getAtLoc().getY() +".");
 		}
-		//TODO Turn taking.
-		//Options for what to do in turn.
-		//Call move method.
-		//Update Board.
-		//Make murder suggestions... etc.
-		//Call UI.print() when turn over.
+		//TODO Ask for suggestions etc.. what ever else a player can do.
+	}
+	
+	private void setpCount(int pCount) {
+		this.pCount = pCount;
+	}
+
+	public int getpCount() {
+		return pCount;
 	}
 }

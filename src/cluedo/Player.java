@@ -2,6 +2,7 @@ package cluedo;
 
 public class Player extends Card{
 	private String name;
+	private Location atLoc = null; 
 	
 	public Player(Integer nameKey){
 		switch(nameKey){
@@ -23,10 +24,13 @@ public class Player extends Card{
 	public String getName() {
 		return name;
 	}
-	
-	public boolean move(int x,int y){
-		//TODO
-		return false;
+
+	public Location getAtLoc() {
+		return atLoc;
+	}
+
+	public void setAtLoc(Location atLoc) {
+		this.atLoc = atLoc;
 	}
 
 }
