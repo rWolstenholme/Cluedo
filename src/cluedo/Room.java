@@ -10,6 +10,7 @@ import java.util.Set;
 public class Room extends Card{
 	private String name;
 	private int roomKey;
+	private Location spot = null;
 
 	/**Create a room using the given roomKey.
 	 * 
@@ -28,36 +29,47 @@ public class Room extends Card{
 		switch (roomKey) {
 		case 0:
 			name = "Kitchen";
+			spot = new Location(26, 3);
 			break;
 		case 1:
 			name = "Patio";
+			spot = new Location(13, 3);
 			break;
 		case 2:
 			name = "Spa";
+			spot = new Location(3, 3);		
 			break;
 		case 3:
 			name = "Dining Room";
+			spot = new Location(25, 13);
 			break;
 		case 4:
 			name = "Observatory";
+			spot = new Location(4, 24);
 			break;
 		case 5:
 			name = "Theatre";
+			spot = new Location(3, 10);
 			break;
 		case 6:
 			name = "Living Room";
+			spot = new Location(4, 16);
 			break;
 		case 7:
 			name = "Guest House";
+			spot = new Location(26, 26);
 			break;
 		case 8:
 			name = "Hall";
+			spot = new Location(15, 24);
 			break;
 		case 9:
 			name = "Pool";
+			spot = new Location(15, 15);
 			break;		
 		case 10:
 			name = "Ouside";
+			spot = null;
 			break;
 		}
 	}
@@ -73,6 +85,14 @@ public class Room extends Card{
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	public Location getSpot() {
+		return spot;
+	}
+
+	public void setSpot(Location spot) {
+		this.spot = spot;
 	}
 
 }

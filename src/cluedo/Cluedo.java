@@ -76,6 +76,10 @@ public class Cluedo {
 
 		while(GAME_OVER == false) {
 			Player cP = players.get(currentTurn % pCount);	//Alternates turns between players.
+			if(cP.getLost()) {
+				currentTurn++;
+				continue;
+			}
 			System.out.println("It is now " + cP.getName() +"'s turn.");
 			takeTurn(cP);
 			currentTurn++;
@@ -103,15 +107,15 @@ public class Cluedo {
 
 		//TODO Ask for announcement/accusations etc.. what ever else a player can do.
 		//Check if player in room. use board class
-		/*if(player is in room){
+		/*if(p.getRoomIn() != null && (!p.getRoomIn().getName().equalsIgnoreCase("Pool"))){
 			System.out.println("Would you like to start a rumor?");
 			if(!askBool()){System.out.println(p.getName()+"'s turn is now over");}
-			Room r = askForRoom();
+			Room r = askForRoom();	//Can only suggest current room, so don't actually need this one.
 			Weapon w = askForWeapon();
 			Player accused = askForChar();
-			//TODO loop round players checking for incosistancy
+			//TODO loop round players checking for inconsistency
 		}
-		else if(player is in pool){
+		else if(p.getRoomIn() != null && p.getRoomIn().getName().equalsIgnoreCase("Pool")){
 			System.out.println("Would you like to make an accusation?");
 			if(!askBool()){System.out.println(p.getName()+"'s turn is now over");}
 			Room r = askForRoom();
@@ -127,7 +131,7 @@ public class Cluedo {
 			}
 		}*/
 	}
-	
+
 	public boolean askBool(){
 		System.out.print(" ,enter 'y'/'n'");
 		while (true) {
@@ -142,7 +146,7 @@ public class Cluedo {
 			}
 		}
 	}
-	
+
 	public Player askForChar(){
 		System.out.println("Choose a character name");
 		while(true){
@@ -160,7 +164,7 @@ public class Cluedo {
 			else {input.next();}
 		}
 	}
-	
+
 	public Weapon askForWeapon(){
 		System.out.println("Choose a weapon name");
 		while(true){
@@ -178,7 +182,7 @@ public class Cluedo {
 			else {input.next();}
 		}
 	}
-	
+
 	public Room askForRoom(){
 		System.out.println("Choose a room name");
 		while(true){
@@ -200,12 +204,17 @@ public class Cluedo {
 	private void rollMove(Player p) {
 		Dice diceRoll = new Dice();
 		System.out.println("You rolled a " + diceRoll.getCurrent());
+		mainloop:
 		for(int moves = diceRoll.getCurrent(); moves>0; moves--){
 			if (p.getRoomIn() != null) {
-				exitRoom(p);
+				if (!exitRoom(p)) {
+					moves++;
+					System.out.println("Sorry, this room does not contain a secret passage");
+					continue mainloop;
+				}
 				moves--;
-				if (board.inRoom(p)) {
-					break;	//Taken passage, stop in the other room.
+				if (p.getRoomIn() != null) {
+					break mainloop;
 				}
 				//Check rules for moving out of a room, this may need to be inside of 'takeTurn' rather.
 			}
@@ -245,7 +254,7 @@ public class Cluedo {
 				throw new RuntimeException("Direction failure encountered.");
 			}
 			board.print();
-			if (board.inRoom(p)) {
+			if (p.getRoomIn() !=null) {
 				System.out.println("Now inside of the " + p.getRoomIn().getName() + ".");
 				moves = 0;
 				//TODO if in a room move 'char' to center of a room or something, rather than door.
@@ -259,7 +268,7 @@ public class Cluedo {
 		}
 	}
 
-	private void exitRoom(Player p) {
+	private boolean exitRoom(Player p) {
 		System.out.println("Type 'exit' to leave the room, or 'sneak' to use the secret passage(May or may not exist)");			
 		String option = null;
 		while(option == null){
@@ -270,13 +279,18 @@ public class Cluedo {
 			}
 			else {input.next();}
 		}
-		
+
 		if (option.equalsIgnoreCase("exit")) {
 			board.exitRoom(p);
+		}
+		else if (option.equalsIgnoreCase("sneak")) {
+			if (!board.takePassage(p))
+				return false;
 		}
 		//TODO 'exit' -> move to last position
 		//Passage exists && 'sneak' -> move to the opposite room.
 		board.print();
+		return true;
 	}
 
 	private void setpCount(int pCount) {
