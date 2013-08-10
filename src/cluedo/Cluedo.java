@@ -15,7 +15,6 @@ public class Cluedo {
 	private int pCount;
 	private int currentTurn = 0;
 	private Board board;
-	private UI console;
 	private boolean GAME_OVER = false;
 	private static Scanner input;
 
@@ -61,9 +60,16 @@ public class Cluedo {
 			weapons.add(w);
 		}
 		mWeapon = weapons.get((int)Math.random()*8);
+		
+		//Setup player hands.
+		int  i = 0;
+		for (Card cr: deck) {
+			Player p = players.get(i%pCount);
+			p.addToHand(cr);
+			i++;
+		}
 
 		board = new Board(this);
-		console = new UI(board);
 
 		while(GAME_OVER == false) {
 			Player cP = players.get(currentTurn % pCount);	//Alternates turns between players.
@@ -129,9 +135,12 @@ public class Cluedo {
 				throw new RuntimeException("Direction failure");
 			}
 			board.print();
+			//xy are wrong.
 			System.out.println(p.getName() + " now at: " + p.getAtLoc().getX() + ","+ p.getAtLoc().getY() +".");
+			System.out.println(p.getHand().toString());
 		}
-		//TODO Ask for suggestions etc.. what ever else a player can do.
+		//TODO Ask for announcement/accusations etc.. what ever else a player can do.
+		//Check if player in room. use board class
 	}
 	
 	private void setpCount(int pCount) {

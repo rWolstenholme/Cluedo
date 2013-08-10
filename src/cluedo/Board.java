@@ -56,9 +56,8 @@ public class Board {
 				if(tile==11){l = new Location(x, y, true);}
 				else if(tile==88||tile==90){l=null;}
 				else{l = new Location(x, y);}
-				for(Room r:game.rooms){
-					if(r.getKey()==tile){r.addLocation(l);break;}
-				}
+				//TODO Holds intrigue card?
+				//Maybe something about being a door?
 				grid[x][y]=l;
 			}
 		}

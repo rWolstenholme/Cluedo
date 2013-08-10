@@ -3,17 +3,27 @@ package cluedo;
 import java.util.HashSet;
 import java.util.Set;
 
+/**Represents a room in the game.
+ * There are 10 different rooms(including the pool)
+ *
+ */
 public class Room extends Card{
-	private Set<Location> inRoom = new HashSet<Location>();
 	private String name;
-	private Set<Location> locations;
 	private int roomKey;
 
+	/**Create a room using the given roomKey.
+	 * 
+	 * @param roomKey - A key that refers to a specific room (0-9).
+	 */
 	public Room(int roomKey) {
 		setName(roomKey);
 		this.roomKey = roomKey;
 	}
 	
+	/**Use the roomkey to find the correct name;
+	 * 
+	 * @param roomKey - A key that refers to a specific room (0-9).
+	 */
 	private void setName(int roomKey) {
 		switch (roomKey) {
 		case 0:
@@ -52,12 +62,12 @@ public class Room extends Card{
 		}
 	}
 	
+	/**Returns the roomKey of this room.
+	 * 
+	 * @return - int roomKey
+	 */
 	public int getKey(){
 		return roomKey;
-	}
-	
-	public void addLocation(Location l) {
-		locations.add(l);
 	}
 
 }

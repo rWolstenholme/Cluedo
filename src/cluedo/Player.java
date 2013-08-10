@@ -1,10 +1,23 @@
 package cluedo;
 
+import java.util.HashSet;
+
+/**Represents a player card in the game.
+ * There are six possible different players.
+ * However they don't all have to be controlled in the game.
+ *
+ */
 public class Player extends Card{
 	private String name;
 	private Location atLoc = null; 
+	private HashSet<Card> hand;
 	
+	/**Create a new player card.
+	 * 
+	 * @param nameKey - A key that refers to which player they are.
+	 */
 	public Player(Integer nameKey){
+		hand = new HashSet<Card>();
 		switch(nameKey){
 		case 0:
 			name = "Kasandra Scarlet"; break;
@@ -21,16 +34,44 @@ public class Player extends Card{
 		}
 	}
 
+	/**Returns this player's name.
+	 * 
+	 * @return - Players name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**Returns current location.
+	 * 
+	 * @return - current Location.
+	 */
 	public Location getAtLoc() {
 		return atLoc;
 	}
 
+	/**Set's the players current location.
+	 * 
+	 * @param atLoc - The location at which this player now stands.
+	 */
 	public void setAtLoc(Location atLoc) {
 		this.atLoc = atLoc;
+	}
+
+	/**Returns a set representing this players hand of cards.
+	 * 
+	 * @return - This hand of cards.
+	 */
+	public HashSet<Card> getHand() {
+		return hand;
+	}
+
+	/**Adds a given card to this players hand.
+	 * 
+	 * @param c - Card to add.
+	 */
+	public void addToHand(Card c) {
+		hand.add(c);
 	}
 
 }

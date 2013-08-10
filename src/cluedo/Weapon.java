@@ -1,8 +1,16 @@
 package cluedo;
 
+/**Represents a weapon in the game.
+ * There are nine different weapons.
+ *
+ */
 public class Weapon extends Card{
 	private String name;
 	
+	/**Create a weapon given the nameKey.
+	 * 
+	 * @param nameKey - A key that refers to a specific weapon (0-8).
+	 */
 	public Weapon(Integer nameKey){
 		switch(nameKey){
 		case 0:
@@ -26,6 +34,10 @@ public class Weapon extends Card{
 		}
 	}
 
+	/**Returns the weapon name.
+	 * 
+	 * @return String name.
+	 */
 	public String getName() {
 		return name;
 	}
