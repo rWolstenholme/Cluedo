@@ -12,6 +12,7 @@ public class Player extends Card{
 	private Location atLoc = null; 
 	private HashSet<Card> hand;
 	private Room roomIn = null;
+	private boolean lost = false;
 
 	/**Create a new player card.
 	 * 
@@ -49,6 +50,21 @@ public class Player extends Card{
 	 */
 	public Location getAtLoc() {
 		return atLoc;
+	}
+
+	/**
+	 * Returns false if the player has not yet lost the game
+	 * @return the players status
+	 */
+	public boolean getLost() {
+		return lost;
+	}
+
+	/**
+	 * Changes player state to lost after a failed accusation
+	 */
+	public void hasLost() {
+		this.lost = true;
 	}
 
 	/**Set's the players current location.

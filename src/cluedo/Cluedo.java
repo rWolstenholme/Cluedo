@@ -103,6 +103,98 @@ public class Cluedo {
 
 		//TODO Ask for announcement/accusations etc.. what ever else a player can do.
 		//Check if player in room. use board class
+		/*if(player is in room){
+			System.out.println("Would you like to start a rumor?");
+			if(!askBool()){System.out.println(p.getName()+"'s turn is now over");}
+			Room r = askForRoom();
+			Weapon w = askForWeapon();
+			Player accused = askForChar();
+			//TODO loop round players checking for incosistancy
+		}
+		else if(player is in pool){
+			System.out.println("Would you like to make an accusation?");
+			if(!askBool()){System.out.println(p.getName()+"'s turn is now over");}
+			Room r = askForRoom();
+			Weapon w = askForWeapon();
+			Player accused = askForChar();
+			if(r==mRoom&&w==mWeapon&&accused==mPlayer){
+				System.out.println(p.getName()+" deduced correctly, the game has ended");
+				System.exit(0);
+			}
+			else{
+				System.out.println(p.getName()+" deduced incorrectly, and is no longer playing");
+				p.hasLost();
+			}
+		}*/
+	}
+	
+	public boolean askBool(){
+		System.out.print(" ,enter 'y'/'n'");
+		while (true) {
+			if (input.hasNext()) {
+				String response = input.nextLine();
+				if(response.equals("n")){return false;}
+				else if (response.equals("y")){return true;}
+				else{System.out.print("Invalid response, 'y' or 'n' only");}
+			}
+			else {
+				input.next();
+			}
+		}
+	}
+	
+	public Player askForChar(){
+		System.out.println("Choose a character name");
+		while(true){
+			if (input.hasNext()) {
+				String name = input.nextLine();
+				for(Player c:players){
+					if(c.getName().toLowerCase().equals(name.toLowerCase())){
+						return c;
+					}
+					else{
+						System.out.println("No such character, retry");
+					}
+				}
+			}
+			else {input.next();}
+		}
+	}
+	
+	public Weapon askForWeapon(){
+		System.out.println("Choose a weapon name");
+		while(true){
+			if (input.hasNext()) {
+				String name = input.nextLine();
+				for(Weapon w:weapons){
+					if(w.getName().toLowerCase().equals(name.toLowerCase())){
+						return w;
+					}
+					else{
+						System.out.println("No such weapon, retry");
+					}
+				}
+			}
+			else {input.next();}
+		}
+	}
+	
+	public Room askForRoom(){
+		System.out.println("Choose a room name");
+		while(true){
+			if (input.hasNext()) {
+				String name = input.nextLine();
+				for(Room r:rooms){
+					if(r.getName().toLowerCase().equals(name.toLowerCase())){
+						return r;
+					}
+					else{
+						System.out.println("No such room, retry");
+					}
+				}
+			}
+			else {input.next();}
+		}
 	}
 
 	private void rollMove(Player p) {
