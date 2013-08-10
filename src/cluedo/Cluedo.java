@@ -23,7 +23,7 @@ public class Cluedo {
 	public static void main(String[] args){
 		int pCount = 0;
 		input = new Scanner(System.in);
-		while(pCount<3||pCount>6){
+		while(pCount<1||pCount>6){
 			System.out.println("How many players? 3-6");
 			if(input.hasNextInt()){pCount = input.nextInt();}
 			else{input.next();}
@@ -46,7 +46,7 @@ public class Cluedo {
 			System.out.println("Player "+players.get(i).getName()+" has joined the game");
 		}
 		System.out.println("Starting game with "+pCount+" players\n");
-		
+
 		mPlayer = players.get((int)Math.random()*6);
 		deck.remove(mPlayer);
 		//Create weapons
@@ -201,9 +201,12 @@ public class Cluedo {
 		Dice diceRoll = new Dice();
 		System.out.println("You rolled a " + diceRoll.getCurrent());
 		for(int moves = diceRoll.getCurrent(); moves>0; moves--){
-			//TODO Check if next to room Door. 
-			//If so, then give option to enter.
 			if (p.getRoomIn() != null) {
+				exitRoom(p);
+				moves--;
+				if (board.inRoom(p)) {
+					break;	//Taken passage, stop in the other room.
+				}
 				//Check rules for moving out of a room, this may need to be inside of 'takeTurn' rather.
 			}
 			//TODO Also give different options if inside of room currently.
@@ -218,28 +221,28 @@ public class Cluedo {
 			direction d = direction.valueOf(dir.toUpperCase());
 			switch(d.ordinal()){
 			case 0:
-				if (board.move(p, 0, -1))
+				if (board.move(p, -1, 0))
 					//if now in a room/door -> moves = 0;
 					break;
 				else 
-					moves++; System.out.println("invalid move");continue;
+					moves++; System.out.println("Invalid move!");continue;
 			case 1:
-				if (board.move(p, 0, 1))
-					break;
-				else 
-					moves++; System.out.println("invalid move");continue;
-			case 2:
-				if (board.move(p, -1, 0))
-					break;
-				else 
-					moves++; System.out.println("invalid move");continue;
-			case 3:
 				if (board.move(p, 1, 0))
 					break;
 				else 
-					moves++; System.out.println("invalid move");continue;
+					moves++; System.out.println("Invalid move!");continue;
+			case 2:
+				if (board.move(p, 0, -1))
+					break;
+				else 
+					moves++; System.out.println("Invalid move!");continue;
+			case 3:
+				if (board.move(p, 0, 1))
+					break;
+				else 
+					moves++; System.out.println("Invalid move!");continue;
 			default:
-				throw new RuntimeException("Direction failure");
+				throw new RuntimeException("Direction failure encountered.");
 			}
 			board.print();
 			if (board.inRoom(p)) {
@@ -247,13 +250,33 @@ public class Cluedo {
 				moves = 0;
 				//TODO if in a room move 'char' to center of a room or something, rather than door.
 			}
-			
+
 			if (p.getAtLoc().hasCard())
-				System.out.println("I should pick up an intrigue card right about now...");
-			//x and y are wrong.
-			System.out.println(p.getName() + " now at: " + p.getAtLoc().getX() + ","+ p.getAtLoc().getY() +". (These are currently reversed)");
+				System.out.println("Pick up intrigue card.");
+			//X and Y are set wrong way around.
+			System.out.println(p.getName() + " now at: " + p.getAtLoc().getY() + ","+ p.getAtLoc().getX());
 			System.out.println(p.handToString());
 		}
+	}
+
+	private void exitRoom(Player p) {
+		System.out.println("Type 'exit' to leave the room, or 'sneak' to use the secret passage(May or may not exist)");			
+		String option = null;
+		while(option == null){
+			if (input.hasNext()) {
+				option = input.nextLine();
+				if (!(option.equalsIgnoreCase("sneak") || option.equalsIgnoreCase("exit")))
+					option = null;
+			}
+			else {input.next();}
+		}
+		
+		if (option.equalsIgnoreCase("exit")) {
+			board.exitRoom(p);
+		}
+		//TODO 'exit' -> move to last position
+		//Passage exists && 'sneak' -> move to the opposite room.
+		board.print();
 	}
 
 	private void setpCount(int pCount) {

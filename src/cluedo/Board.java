@@ -106,9 +106,13 @@ public class Board {
 		
 		if (temp < 10) {
 			p.setRoomIn(game.getRooms().get(temp));
+			p.setEntrance(oldLoc);
+			//Secret passage will need it's own version entrance.
 		}
-		else
-			p.clearRoom();
+		else {
+			p.setEntrance((Location)null);
+			p.setRoomIn((Room)null);
+		}
 		
 		return true;
 		
@@ -122,6 +126,18 @@ public class Board {
 		}
 		else 
 			return false;
+	}
+	
+	public void exitRoom(Player p) {
+		Location oldLoc = p.getAtLoc();
+		Location newLoc = p.getEntrance();
+		
+		oldLoc.setPlayer(false);
+		newLoc.setPlayer(true);
+		oldLoc.setP(null);
+		newLoc.setP(p);
+		p.setAtLoc(newLoc);
+		playerLocations.put(p, newLoc);
 	}
 
 	public void print() {
