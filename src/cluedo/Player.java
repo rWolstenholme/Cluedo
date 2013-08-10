@@ -12,6 +12,7 @@ public class Player extends Card{
 	private Location atLoc = null; 
 	private HashSet<Card> hand;
 	private Room roomIn = null;
+	private Location entrance = null;
 
 	/**Create a new player card.
 	 * 
@@ -94,5 +95,13 @@ public class Player extends Card{
 			str.append(" " + c.getName() + ",");
 		}
 		return str.toString().substring(0, str.toString().length()-1);
+	}
+
+	public Location getEntrance() {
+		return entrance;
+	}
+
+	public void setEntrance(Location entrance) {
+		this.entrance = entrance;
 	}
 }
