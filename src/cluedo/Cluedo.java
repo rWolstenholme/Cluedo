@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Cluedo {
 	private ArrayList<Player> players = new ArrayList<Player>();
-	public List<Room> rooms = new ArrayList<Room>();
+	private ArrayList<Room> rooms = new ArrayList<Room>();
 	private List<Weapon> weapons = new ArrayList<Weapon>();
 	private List<Card> deck = new ArrayList<Card>();
 	private Weapon mWeapon;
@@ -32,18 +32,21 @@ public class Cluedo {
 		//as it will also close 'System.in' apparently.
 		Cluedo c = new Cluedo(pCount);
 	}
-	
+
 	public Cluedo(int pCount){
 		Dice die = new Dice();
 		this.setpCount(pCount);
-		System.out.println("Starting game with "+pCount+" players");
 		//Create players
 		for(Integer i = 0;i<6;i++){
 			Player p = new Player(i);
 			deck.add(p);
 			players.add(p);
-			//System.out.println("Player "+p.getName()+" has joined the game");
 		}
+		for (int i = 0; i < pCount; i++){
+			System.out.println("Player "+players.get(i).getName()+" has joined the game");
+		}
+		System.out.println("Starting game with "+pCount+" players\n");
+		
 		mPlayer = players.get((int)Math.random()*6);
 		deck.remove(mPlayer);
 		//Create weapons
@@ -52,15 +55,15 @@ public class Cluedo {
 			deck.add(w);
 			weapons.add(w);
 		}
-		mWeapon = weapons.get((int)Math.random()*8);
+		mWeapon = weapons.get((int)Math.random()*9);
 		//Create Rooms
 		for(Integer i = 0;i<8;i++){
-			Weapon w = new Weapon(i);
+			Room w = new Room(i);
 			deck.add(w);
-			weapons.add(w);
+			rooms.add(w);
 		}
-		mWeapon = weapons.get((int)Math.random()*8);
-		
+		mRoom = rooms.get((int)Math.random()*9);
+
 		//Setup player hands.
 		int  i = 0;
 		for (Card cr: deck) {
@@ -96,11 +99,21 @@ public class Cluedo {
 			}
 		}
 		board.print();
+		rollMove(p);
+
+		//TODO Ask for announcement/accusations etc.. what ever else a player can do.
+		//Check if player in room. use board class
+	}
+
+	private void rollMove(Player p) {
 		Dice diceRoll = new Dice();
 		System.out.println("You rolled a " + diceRoll.getCurrent());
 		for(int moves = diceRoll.getCurrent(); moves>0; moves--){
 			//TODO Check if next to room Door. 
 			//If so, then give option to enter.
+			if (p.getRoomIn() != null) {
+				//Check rules for moving out of a room, this may need to be inside of 'takeTurn' rather.
+			}
 			//TODO Also give different options if inside of room currently.
 			System.out.println(moves + " Moves left, type 'up','left,'right, or 'down' to move");
 			String dir=null;
@@ -114,6 +127,7 @@ public class Cluedo {
 			switch(d.ordinal()){
 			case 0:
 				if (board.move(p, 0, -1))
+					//if now in a room/door -> moves = 0;
 					break;
 				else 
 					moves++; System.out.println("invalid move");continue;
@@ -136,19 +150,29 @@ public class Cluedo {
 				throw new RuntimeException("Direction failure");
 			}
 			board.print();
-			//xy are wrong.
-			System.out.println(p.getName() + " now at: " + p.getAtLoc().getX() + ","+ p.getAtLoc().getY() +".");
-			System.out.println(p.getHand().toString());
+			if (board.inRoom(p)) {
+				System.out.println("Now inside of the " + p.getRoomIn().getName() + ".");
+				moves = 0;
+				//TODO if in a room move 'char' to center of a room or something, rather than door.
+			}
+			
+			if (p.getAtLoc().hasCard())
+				System.out.println("I should pick up an intrigue card right about now...");
+			//x and y are wrong.
+			System.out.println(p.getName() + " now at: " + p.getAtLoc().getX() + ","+ p.getAtLoc().getY() +". (These are currently reversed)");
+			System.out.println(p.handToString());
 		}
-		//TODO Ask for announcement/accusations etc.. what ever else a player can do.
-		//Check if player in room. use board class
 	}
-	
+
 	private void setpCount(int pCount) {
 		this.pCount = pCount;
 	}
 
 	public int getpCount() {
 		return pCount;
+	}
+
+	public ArrayList<Room> getRooms() {
+		return rooms;
 	}
 }

@@ -11,7 +11,8 @@ public class Player extends Card{
 	private String name;
 	private Location atLoc = null; 
 	private HashSet<Card> hand;
-	
+	private Room roomIn = null;
+
 	/**Create a new player card.
 	 * 
 	 * @param nameKey - A key that refers to which player they are.
@@ -74,4 +75,24 @@ public class Player extends Card{
 		hand.add(c);
 	}
 
+	public Room getRoomIn() {
+		return roomIn;
+	}
+
+	public void setRoomIn(Room roomIn) {
+		this.roomIn = roomIn;
+	}
+
+	public void clearRoom(){
+		this.roomIn = null;
+	}
+	
+	public String handToString() {
+		StringBuilder str = new StringBuilder();
+		str.append("Holding:");
+		for (Card c: hand) {			
+			str.append(" " + c.getName() + ",");
+		}
+		return str.toString().substring(0, str.toString().length()-1);
+	}
 }

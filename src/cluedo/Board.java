@@ -88,7 +88,7 @@ public class Board {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return false;
 		}
-		if (!(temp == 10 || temp ==22)) {
+		if (!(temp ==22 || temp < 12)) {
 			return false;
 		}
 		
@@ -104,8 +104,24 @@ public class Board {
 		p.setAtLoc(newLoc);
 		playerLocations.put(p, newLoc);
 		
+		if (temp < 10) {
+			p.setRoomIn(game.getRooms().get(temp));
+		}
+		else
+			p.clearRoom();
+		
 		return true;
 		
+	}
+	
+	public boolean inRoom(Player p) {
+		Location l = p.getAtLoc();
+		//Is on a door.
+		if (layout[l.getX()][l.getY()] <10) {
+			return true;
+		}
+		else 
+			return false;
 	}
 
 	public void print() {
@@ -133,9 +149,8 @@ public class Board {
 					str = " ? ";
 					break;
 				//Doors
-				//TODO Some extra things on the board, i.e what is a 7??  7 is an entry to room 7, I accidentally a few extra
 				default:
-					str = " ! ";
+					str = "[+]";
 					break;
 				}
 				

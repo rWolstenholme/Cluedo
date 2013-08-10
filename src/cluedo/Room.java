@@ -39,7 +39,7 @@ public class Room extends Card{
 			name = "Dining Room";
 			break;
 		case 4:
-			name = "Pool";
+			name = "Observatory";
 			break;
 		case 5:
 			name = "Theatre";
@@ -54,8 +54,8 @@ public class Room extends Card{
 			name = "Hall";
 			break;
 		case 9:
-			name = "Observatory";
-			break;
+			name = "Pool";
+			break;		
 		case 10:
 			name = "Ouside";
 			break;
@@ -68,6 +68,11 @@ public class Room extends Card{
 	 */
 	public int getKey(){
 		return roomKey;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }
