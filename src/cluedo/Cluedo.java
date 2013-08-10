@@ -95,6 +95,7 @@ public class Cluedo {
 				input.next();
 			}
 		}
+		board.print();
 		Dice diceRoll = new Dice();
 		System.out.println("You rolled a " + diceRoll.getCurrent());
 		for(int moves = diceRoll.getCurrent(); moves>0; moves--){
@@ -115,22 +116,22 @@ public class Cluedo {
 				if (board.move(p, 0, -1))
 					break;
 				else 
-					moves++; continue;
+					moves++; System.out.println("invalid move");continue;
 			case 1:
 				if (board.move(p, 0, 1))
 					break;
 				else 
-					moves++; continue;
+					moves++; System.out.println("invalid move");continue;
 			case 2:
 				if (board.move(p, -1, 0))
 					break;
 				else 
-					moves++; continue;
+					moves++; System.out.println("invalid move");continue;
 			case 3:
 				if (board.move(p, 1, 0))
 					break;
 				else 
-					moves++; continue;
+					moves++; System.out.println("invalid move");continue;
 			default:
 				throw new RuntimeException("Direction failure");
 			}
