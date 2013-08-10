@@ -68,8 +68,8 @@ public class Board {
 				grid[temp.getX()][temp.getY()] = temp;
 			}
 		}
-		
-		
+
+
 		//Set up list of start points. x and y are actually inverted.
 		startPos.add(new Point(29,18));
 		startPos.add(new Point(29,7));
@@ -87,7 +87,7 @@ public class Board {
 		}
 
 	}
-	
+
 	public boolean move(Player p, int x, int y) {
 		//TODO Either include each room in this, or have a separate method for entering rooms.
 		int temp;
@@ -99,39 +99,46 @@ public class Board {
 		if (!(temp ==22 || temp < 12)) {
 			return false;
 		}
-		
+
 		//Get old location, set hasPlayer to false;
 		//Get new location, set has player to true;
 		//Replace old location in map with new location;
 		Location oldLoc = playerLocations.get(p);
 		Location newLoc = grid[playerLocations.get(p).getX() +x][playerLocations.get(p).getY() + y];
-		
+
+		if (newLoc.hasPlayer()) {
+			return false;
+		}
+
 		if (temp < 10) {
+			newLoc = game.getRooms().get(temp).getSpot();
+			if (newLoc.hasPlayer()) {
+				return false;
+			}
 			p.setRoomIn(game.getRooms().get(temp));
 			p.setEntrance(oldLoc);
-			newLoc = p.getRoomIn().getSpot();
 			//Secret passage will need it's own version entrance.
 		}
 		else {
 			p.setEntrance((Location)null);
 			p.setRoomIn((Room)null);
 		}
-		
+
 		oldLoc.setPlayer(false);
 		newLoc.setPlayer(true);
 		oldLoc.setP(null);
 		newLoc.setP(p);
 		p.setAtLoc(newLoc);
 		playerLocations.put(p, newLoc);
-		
+
 		return true;
-		
+
 	}
-	
+
 	public void exitRoom(Player p) {
 		Location oldLoc = p.getAtLoc();
 		Location newLoc = p.getEntrance();
-		
+
 		oldLoc.setPlayer(false);
 		newLoc.setPlayer(true);
 		oldLoc.setP((Player)null);
@@ -140,7 +147,7 @@ public class Board {
 		playerLocations.put(p, newLoc);
 		p.setRoomIn((Room)null);
 	}
-	
+
 	public boolean takePassage(Player p) {
 		switch (p.getRoomIn().getName().toLowerCase()) {
 		case "kitchen":
@@ -160,27 +167,27 @@ public class Board {
 		}
 		return true;
 	}
-	
+
 	private void moveTo(Location enter, String roomName, Player p) {
 		Room oldRoom = p.getRoomIn();
 		Room newRoom = null;
 		loop:
-		for (Room r: game.getRooms()) {
-			if (r.getName().toLowerCase().equals(roomName)) {
-				newRoom = r;
-				break loop;
+			for (Room r: game.getRooms()) {
+				if (r.getName().toLowerCase().equals(roomName)) {
+					newRoom = r;
+					break loop;
+				}
 			}
-		}
-		
+
 		p.getAtLoc().setPlayer(false);
 		newRoom.getSpot().setPlayer(true);
 		oldRoom.getSpot().setP((Player)null);
 		newRoom.getSpot().setP(p);
 		playerLocations.put(p, newRoom.getSpot());
-		
+
 		p.setRoomIn(newRoom);
 		p.setAtLoc(p.getRoomIn().getSpot());
-		
+
 		p.setEntrance(enter);
 	}
 
@@ -208,13 +215,13 @@ public class Board {
 				case 11:
 					str = " ? ";
 					break;
-				//Doors
+					//Doors
 				default:
 					str = "[+]";
 					break;
 				}
-				
-				if (grid [x][y] != null && grid[x][y].hasPlayer) {
+
+				if (grid [x][y] != null && grid[x][y].hasPlayer && (!grid[x][y].getP().getHasLost())) {
 					str = " " +grid[x][y].getP().getName().substring(0, 1) + " ";
 				}
 				line.append(str);

@@ -47,7 +47,7 @@ public class Cluedo {
 		}
 		System.out.println("Starting game with "+pCount+" players\n");
 
-		mPlayer = players.get((int)Math.random()*6);
+		mPlayer = players.get((int)(Math.random()*6));
 		deck.remove(mPlayer);
 		//Create weapons
 		for(Integer i = 0;i<8;i++){
@@ -55,15 +55,16 @@ public class Cluedo {
 			deck.add(w);
 			weapons.add(w);
 		}
-		mWeapon = weapons.get((int)Math.random()*9);
+		mWeapon = weapons.get((int)(Math.random()*9));
+		deck.remove(mWeapon);
 		//Create Rooms
 		for(Integer i = 0;i<8;i++){
 			Room w = new Room(i);
 			deck.add(w);
 			rooms.add(w);
 		}
-		mRoom = rooms.get((int)Math.random()*9);
-
+		mRoom = rooms.get((int)(Math.random()*9));
+		deck.remove(mRoom);
 		//Setup player hands.
 		int  i = 0;
 		for (Card cr: deck) {
@@ -76,7 +77,7 @@ public class Cluedo {
 
 		while(GAME_OVER == false) {
 			Player cP = players.get(currentTurn % pCount);	//Alternates turns between players.
-			if(cP.getLost()) {
+			if(cP.getHasLost()) {
 				currentTurn++;
 				continue;
 			}
@@ -84,6 +85,8 @@ public class Cluedo {
 			takeTurn(cP);
 			currentTurn++;
 		}
+		
+		System.out.println("GAME OVER");
 	}
 
 	public ArrayList<Player> getPlayers() {
@@ -103,6 +106,7 @@ public class Cluedo {
 			}
 		}
 		board.print();
+		System.out.println(p.handToString());
 		rollMove(p);
 
 		//Check if player in room. use board class
@@ -134,25 +138,33 @@ public class Cluedo {
 				Weapon w = askForWeapon();
 				Player accused = askForChar();
 				if(r==mRoom&&w==mWeapon&&accused==mPlayer){
-					System.out.println(p.getName()+" deduced correctly, the game has ended");
+					System.out.println(p.getName()+" deduced correctly, the game has ended!");
+					System.out.println("The murder cards were: "+ mPlayer.getName()+", " + 	mRoom.getName() +", " + mWeapon.getName()+".");
 					System.exit(0);
 				}
 				else{
-					System.out.println(p.getName()+" deduced incorrectly, and is no longer playing");
+					System.out.println(p.getName()+" deduced incorrectly, and is no longer playing.");
 					p.hasLost();
+					int lost = 0;
+					for (int i = 0; i < pCount; i++) {
+						if (players.get(i).getHasLost())
+							lost++;
+					}
+					if (lost == pCount)
+						GAME_OVER = true;
 				}
 			}
 		}
 	}
 
 	public boolean askBool(){
-		System.out.print("Enter 'y'/'n'");
+		System.out.print("Enter 'y'/'n'\n");
 		while (true) {
 			if (input.hasNext()) {
 				String response = input.nextLine();
 				if(response.equals("n")){return false;}
 				else if (response.equals("y")){return true;}
-				else{System.out.print("Invalid response, 'y' or 'n' only");}
+				else{System.out.print("Invalid response, 'y' or 'n' only\n");}
 			}
 			else {
 				input.next();
@@ -162,7 +174,8 @@ public class Cluedo {
 
 	public Player askForChar(){
 		System.out.println("Choose a character name, possible options are ");
-		for(Player c:players){System.out.print(c.getName()+",");}
+		for(Player c:players){System.out.print(c.getName()+", ");}
+		System.out.print("\n");
 		while(true){
 			if (input.hasNext()) {
 				String name = input.nextLine();
@@ -180,7 +193,8 @@ public class Cluedo {
 
 	public Weapon askForWeapon(){
 		System.out.println("Choose a weapon, possible options are ");
-		for(Weapon w:weapons){System.out.print(w.getName()+",");}
+		for(Weapon w:weapons){System.out.print(w.getName()+", ");}
+		System.out.print("\n");
 		while(true){
 			if (input.hasNext()) {
 				String name = input.nextLine();
@@ -197,7 +211,8 @@ public class Cluedo {
 
 	public Room askForRoom(){
 		System.out.println("Choose a room name, possible options are ");
-		for(Room c:rooms){System.out.print(c.getName()+",");}
+		for(Room c:rooms){System.out.print(c.getName()+", ");}
+		System.out.print("\n");
 		while(true){
 			if (input.hasNext()) {
 				String name = input.nextLine();
@@ -267,15 +282,15 @@ public class Cluedo {
 			board.print();
 			if (p.getRoomIn() !=null) {
 				System.out.println("Now inside of the " + p.getRoomIn().getName() + ".");
+				System.out.println(p.handToString());
 				moves = 0;
 				//TODO if in a room move 'char' to center of a room or something, rather than door.
 			}
 
 			if (p.getAtLoc().hasCard())
-				System.out.println("Pick up intrigue card.");
+				System.out.println("Pick up an intrigue card.");
 			//X and Y are set wrong way around.
 			System.out.println(p.getName() + " now at: " + p.getAtLoc().getY() + ","+ p.getAtLoc().getX());
-			System.out.println(p.handToString());
 		}
 	}
 

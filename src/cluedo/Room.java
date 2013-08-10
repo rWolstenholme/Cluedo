@@ -40,7 +40,7 @@ public class Room extends Card{
 			name = "Dining Room";
 			spot = new Location(25, 13);
 			break;
-		case 4:
+		case 9:
 			name = "Observatory";
 			spot = new Location(4, 24);
 			break;
@@ -60,7 +60,7 @@ public class Room extends Card{
 			name = "Hall";
 			spot = new Location(15, 24);
 			break;
-		case 9:
+		case 4:
 			name = "Pool";
 			spot = new Location(15, 15);
 			break;		
