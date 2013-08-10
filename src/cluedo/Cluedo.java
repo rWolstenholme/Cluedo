@@ -30,11 +30,11 @@ public class Cluedo {
 		}
 		//input.close(); Don't close the scanner here, 
 		//as it will also close 'System.in' apparently.
-		Cluedo c = new Cluedo(pCount);
+		//Cluedo c = new Cluedo(pCount); Do we need a var?
+		new Cluedo(pCount);
 	}
 
 	public Cluedo(int pCount){
-		Dice die = new Dice();
 		this.setpCount(pCount);
 		//Create players
 		for(Integer i = 0;i<6;i++){
@@ -107,13 +107,24 @@ public class Cluedo {
 
 		//TODO Ask for announcement/accusations etc.. what ever else a player can do.
 		//Check if player in room. use board class
-		/*if(p.getRoomIn() != null && (!p.getRoomIn().getName().equalsIgnoreCase("Pool"))){
+		if(p.getRoomIn() != null && (!p.getRoomIn().getName().equalsIgnoreCase("Pool"))){
 			System.out.println("Would you like to start a rumor?");
 			if(!askBool()){System.out.println(p.getName()+"'s turn is now over");}
-			Room r = askForRoom();	//Can only suggest current room, so don't actually need this one.
+			Room r = p.getRoomIn();
 			Weapon w = askForWeapon();
 			Player accused = askForChar();
-			//TODO loop round players checking for inconsistency
+			//Works out the players index to go clockwise from, hacky sorta
+			int pIndex = 0;
+			while(players.get(pIndex)!=p){pIndex++;}
+			pIndex++;
+			for(int i = 0;i!=pIndex;i++){
+				if(i>pCount){i=0;}
+				Player skeptic = players.get(i);
+				if(skeptic==accused){skeptic.setRoomIn(r);}
+				if(skeptic.getHand().contains(r)){System.out.println("Dissproved by "+skeptic.getName()+" who showed "+r.getName());break;}
+				if(skeptic.getHand().contains(w)){System.out.println("Dissproved by "+skeptic.getName()+" who showed "+w.getName());break;}
+				if(skeptic.getHand().contains(accused)){System.out.println("Dissproved by "+skeptic.getName()+" who showed "+accused.getName());break;}
+			}
 		}
 		else if(p.getRoomIn() != null && p.getRoomIn().getName().equalsIgnoreCase("Pool")){
 			System.out.println("Would you like to make an accusation?");
@@ -129,7 +140,7 @@ public class Cluedo {
 				System.out.println(p.getName()+" deduced incorrectly, and is no longer playing");
 				p.hasLost();
 			}
-		}*/
+		}
 	}
 
 	public boolean askBool(){

@@ -1,8 +1,5 @@
 package cluedo;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**Represents a room in the game.
  * There are 10 different rooms(including the pool)
  *
