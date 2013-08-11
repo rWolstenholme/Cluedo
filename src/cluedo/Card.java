@@ -4,9 +4,11 @@ package cluedo;
  *
  */
 public abstract class Card {
-	
-	//We could have a constructor to take the name field.
-	
+
+	/**method to return the card name.
+	 * 
+	 * @return - Name of the card.
+	 */
 	public abstract String getName(); 
-	
+
 }

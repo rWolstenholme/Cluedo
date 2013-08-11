@@ -92,18 +92,26 @@ public class Player extends Card{
 		hand.add(c);
 	}
 
+	/**Get the room the player is currently inside of.
+	 * 
+	 * @return - Room
+	 */
 	public Room getRoomIn() {
 		return roomIn;
 	}
 
+	/**Set the room the player is currently inside of.
+	 * 
+	 * @param roomIn - Room
+	 */
 	public void setRoomIn(Room roomIn) {
 		this.roomIn = roomIn;
 	}
 
-	public void clearRoom(){
-		this.roomIn = null;
-	}
-	
+	/**Returns a string of all the cards in the players hand.
+	 * 
+	 * @return - String, cards in player's hand.
+	 */
 	public String handToString() {
 		StringBuilder str = new StringBuilder();
 		str.append("Holding:");
@@ -113,10 +121,19 @@ public class Player extends Card{
 		return str.toString().substring(0, str.toString().length()-1);
 	}
 
+	/**Returns the players current entrance.
+	 * 
+	 * @return - Location.
+	 */
 	public Location getEntrance() {
 		return entrance;
 	}
 
+	/**Set the entrance of the player.
+	 * Entrance is the location of which they entered the current room.
+	 * 
+	 * @param entrance - Location
+	 */
 	public void setEntrance(Location entrance) {
 		this.entrance = entrance;
 	}

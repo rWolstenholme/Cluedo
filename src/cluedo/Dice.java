@@ -10,7 +10,7 @@ public class Dice {
 	private int one;
 	private int two;
 	private Random rand;
-	
+
 	/**Create new dice and rolls it
 	 */
 	public Dice(){
@@ -18,7 +18,7 @@ public class Dice {
 		one = rand.nextInt(6) + 1;
 		two = rand.nextInt(6) + 1;
 	}
-	
+
 	/**Rolls the dice.
 	 * 
 	 * @return - The value of the roll (2-12).
@@ -28,7 +28,7 @@ public class Dice {
 		two = rand.nextInt(6) + 1;
 		return one + two;
 	}
-	
+
 	/**Returns the current value of the dice, i.e. the last roll.
 	 * 
 	 * @return - Current value.

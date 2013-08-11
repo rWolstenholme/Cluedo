@@ -17,7 +17,7 @@ public class Room extends Card{
 		setName(roomKey);
 		this.roomKey = roomKey;
 	}
-	
+
 	/**Use the roomkey to find the correct name;
 	 * 
 	 * @param roomKey - A key that refers to a specific room (0-9).
@@ -70,7 +70,7 @@ public class Room extends Card{
 			break;
 		}
 	}
-	
+
 	/**Returns the roomKey of this room.
 	 * 
 	 * @return - int roomKey
@@ -79,15 +79,28 @@ public class Room extends Card{
 		return roomKey;
 	}
 
+	/**Get the name of the room
+	 * 
+	 * @return - String name
+	 */
 	@Override
 	public String getName() {
 		return name;
 	}
 
+	/**Get the set room spot.
+	 * 
+	 * @return - Location
+	 */
 	public Location getSpot() {
 		return spot;
 	}
 
+	/**Sets this room's spot.
+	 * Spot is the location a player is displayed on the board when inside the room.
+	 * 
+	 * @param spot - Location
+	 */
 	public void setSpot(Location spot) {
 		this.spot = spot;
 	}

@@ -6,7 +6,7 @@ package cluedo;
  */
 public class Weapon extends Card{
 	private String name;
-	
+
 	/**Create a weapon given the nameKey.
 	 * 
 	 * @param nameKey - A key that refers to a specific weapon (0-8).

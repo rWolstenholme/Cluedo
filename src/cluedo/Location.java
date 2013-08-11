@@ -41,7 +41,7 @@ public class Location {
 	public int getX() {
 		return x;
 	}
-	
+
 	/**Returns the Y coordinate.
 	 * 
 	 * @return - Y coordinate.
