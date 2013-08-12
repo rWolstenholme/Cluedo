@@ -44,9 +44,19 @@ public class Cluedo {
 		(new Cluedo(pCount)).playGame();
 	}
 
-	private void playGame() {
+	public void playGame() {
 		//Take each players turn, unless they have lost.
 		while(GAME_OVER == false) {
+			int lost = 0;
+			//Check if all players have lost.
+			for (int i = 0; i < pCount; i++) {
+				if (players.get(i).getHasLost())
+					lost++;
+			}
+			if (lost == pCount) {
+				GAME_OVER = true;
+				break;
+			}
 			Player cP = players.get(currentTurn % pCount);	//Alternates turns between players.
 			if(cP.getHasLost()) {
 				currentTurn++;
@@ -55,6 +65,9 @@ public class Cluedo {
 			System.out.println("It is now " + cP.getName() +"'s turn.");
 			takeTurn(cP);
 			currentTurn++;
+			
+			
+			
 		}
 
 		System.out.println("GAME OVER");
@@ -456,4 +469,9 @@ public class Cluedo {
 		mcs.add(mRoom);
 		return mcs;
 	}
+	
+	public boolean getGameOver() {
+		return GAME_OVER;
+	}
+	
 }

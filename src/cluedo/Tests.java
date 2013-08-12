@@ -4,6 +4,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+/**Class with a suite of JUnit tests, 
+ * used to test the functionality of the game. 
+ *
+ */
 public class Tests {
 
 	@Test
@@ -50,6 +54,24 @@ public class Tests {
 				if(p.getHand().contains(card)){fail("Murder card was in a players hand");}
 			}
 		}
+	}
+	
+	@Test
+	public void moveOntoPlayer() {
+		Cluedo c = new Cluedo(3);
+		Player p = c.getPlayers().get(1);
+		Location otherPlayer = c.getPlayers().get(0).getAtLoc();
+		assert(c.getBoard().move(p, otherPlayer.getX(), otherPlayer.getY()) == false);
+	}
+	
+	@Test
+	public void gameLost() {
+		Cluedo c = new Cluedo(3);
+		for (Player p: c.getPlayers()) {
+			p.hasLost();
+		}
+		c.playGame();
+		assert(c.getGameOver() == true);
 	}
 	
 	
