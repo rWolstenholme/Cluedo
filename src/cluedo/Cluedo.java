@@ -86,7 +86,7 @@ public class Cluedo {
 			deck.add(w);
 			weapons.add(w);
 		}
-		mWeapon = weapons.get((int)(Math.random()*9));
+		mWeapon = weapons.get((int)(Math.random()*8));
 		deck.remove(mWeapon);
 		//Create Rooms
 		for(Integer i = 0;i<8;i++){
@@ -94,7 +94,7 @@ public class Cluedo {
 			deck.add(w);
 			rooms.add(w);
 		}
-		mRoom = rooms.get((int)(Math.random()*9));
+		mRoom = rooms.get((int)(Math.random()*8));
 		deck.remove(mRoom);
 		//Setup player hands.
 		int  i = 0;
@@ -436,7 +436,24 @@ public class Cluedo {
 		return rooms;
 	}
 	
+
+	/**Get the game board
+	 * 
+	 * @return - Board
+	 */
 	public Board getBoard(){
 		return board;
+	}
+	
+	/**Gets a combination of murder weapon, murder room, and murderer
+	 * 
+	 * @return - List of three cards
+	 */
+	public List<Card> getMCards(){
+		List<Card> mcs = new ArrayList<Card>();
+		mcs.add(mPlayer);
+		mcs.add(mWeapon);
+		mcs.add(mRoom);
+		return mcs;
 	}
 }

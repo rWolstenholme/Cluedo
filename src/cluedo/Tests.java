@@ -20,7 +20,7 @@ public class Tests {
 			for(Player p:c.getPlayers()){
 				if(p.getHand().contains(card)){found = true;}
 			}
-			if(!found){fail();}
+			if(!found){fail("A card was not distributed to a player");}
 		}
 	}
 	
@@ -39,7 +39,18 @@ public class Tests {
 	public void invalidMove() {
 		Cluedo c = new Cluedo(3);
 		Player p = c.getPlayers().get(1);
-		Location startsAt = p.getAtLoc();
 		assert(!c.getBoard().move(p, 50, 10));
 	}
+	
+	@Test
+	public void mCardNotInHand() {
+		Cluedo c = new Cluedo(3);
+		for(Player p:c.getPlayers()){
+			for(Card card:c.getMCards()){
+				if(p.getHand().contains(card)){fail("Murder card was in a players hand");}
+			}
+		}
+	}
+	
+	
 }
