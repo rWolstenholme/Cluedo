@@ -41,7 +41,23 @@ public class Cluedo {
 			else{input.next();}
 		}
 		//Create new game.
-		new Cluedo(pCount);
+		(new Cluedo(pCount)).playGame();
+	}
+
+	private void playGame() {
+		//Take each players turn, unless they have lost.
+		while(GAME_OVER == false) {
+			Player cP = players.get(currentTurn % pCount);	//Alternates turns between players.
+			if(cP.getHasLost()) {
+				currentTurn++;
+				continue;
+			}
+			System.out.println("It is now " + cP.getName() +"'s turn.");
+			takeTurn(cP);
+			currentTurn++;
+		}
+
+		System.out.println("GAME OVER");
 	}
 
 	/**Creates a new game a cluedo with the given number of players.
@@ -90,20 +106,6 @@ public class Cluedo {
 
 		//Create the board for this game.
 		board = new Board(this);
-
-		//Take each players turn, unless they have lost.
-		while(GAME_OVER == false) {
-			Player cP = players.get(currentTurn % pCount);	//Alternates turns between players.
-			if(cP.getHasLost()) {
-				currentTurn++;
-				continue;
-			}
-			System.out.println("It is now " + cP.getName() +"'s turn.");
-			takeTurn(cP);
-			currentTurn++;
-		}
-
-		System.out.println("GAME OVER");
 	}
 
 	/**Returns a list of all the players in the game.
@@ -417,6 +419,14 @@ public class Cluedo {
 	public int getpCount() {
 		return pCount;
 	}
+	
+	/**Get cards in the deck
+	 * 
+	 * @return - List of cards
+	 */
+	public List<Card> getDeck(){
+		return deck;
+	}
 
 	/**Get a list of players in the game.
 	 * 
@@ -424,5 +434,9 @@ public class Cluedo {
 	 */
 	public ArrayList<Room> getRooms() {
 		return rooms;
+	}
+	
+	public Board getBoard(){
+		return board;
 	}
 }

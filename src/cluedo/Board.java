@@ -263,4 +263,8 @@ public class Board {
 			System.out.println(line.toString());
 		}
 	}
+	
+	public Location getPlayerLoc(Player p){
+		return playerLocations.get(p);
+	}
 }
